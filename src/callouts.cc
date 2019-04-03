@@ -54,12 +54,12 @@ void extract_pkt4(std::vector<std::string>& env, const std::string envprefix, co
     env.push_back(envprefix + "RELAYED=" + std::to_string(pkt4->isRelayed()));
     env.push_back(envprefix + "RELAY_HOPS=" + std::to_string(pkt4->getHops()));
 
-    OptionPtr option82 = query4_ptr->getOption(82);
+    OptionPtr option82 = pkt4->getOption(82);
     if (option82) {
         for(int a = 0; a < 3; a = a + 1) {
             OptionPtr SubPtr = option82->getOption(a);
             if (SubPtr) {
-                env.push_back(envprefix + "OPTION82_SUB" + a + "=" + toText(SubPtr->toBinary(false)));
+                env.push_back(envprefix + "OPTION82_SUB" + std::to_string(a) + "=" + toText(SubPtr->toBinary(false)));
             }
         }
     }
