@@ -31,7 +31,7 @@ void extract_string_option(int optionNr, std::vector<std::string>& env, const st
 {
     OptionPtr option = pkt4->getOption(optionNr);
     if (option) {
-        env.push_back(envprefix + "OPTION" + std::to_string(optionNr) + "=" + option.toText());
+        env.push_back(envprefix + "OPTION" + std::to_string(optionNr) + "=" + toText(option->toBinary(false)));
     }
 }
 
@@ -62,7 +62,7 @@ void extract_pkt4(std::vector<std::string>& env, const std::string envprefix, co
     env.push_back(envprefix + "RELAYED=" + std::to_string(pkt4->isRelayed()));
     env.push_back(envprefix + "RELAY_HOPS=" + std::to_string(pkt4->getHops()));
 
-    extract_string_option(12, env, envprefix, pkt4)
+    extract_string_option(12, env, envprefix, pkt4);
 
     OptionPtr option82 = pkt4->getOption(82);
     if (option82) {
