@@ -46,7 +46,7 @@ void extract_pkt4(std::vector<std::string>& env, const std::string envprefix, co
     /* Hardware address */
     HWAddrPtr hwaddr = pkt4->getHWAddr();
     if (hwaddr) {
-        env.push_back(envprefix + "HWADDR=" + toText(hwaddr->toBinary(false)));
+        env.push_back(envprefix + "HWADDR=" + hwaddr->toText(false));
         env.push_back(envprefix + "HWADDR_TYPE=" + std::to_string(hwaddr->htype_));
         env.push_back(envprefix + "HWADDR_SOURCE=" + std::to_string(hwaddr->source_));
     } else {
