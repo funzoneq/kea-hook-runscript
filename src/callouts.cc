@@ -56,7 +56,7 @@ void extract_pkt4(std::vector<std::string>& env, const std::string envprefix, co
 
     OptionPtr option82 = pkt4->getOption(82);
     if (option82) {
-        for(int a = 0; a < 3; a = a + 1) {
+        for(int a = 1; a < 3; a = a + 1) {
             OptionPtr SubPtr = option82->getOption(a);
             if (SubPtr) {
                 env.push_back(envprefix + "OPTION82_SUB" + std::to_string(a) + "=" + toText(SubPtr->toBinary(false)));
