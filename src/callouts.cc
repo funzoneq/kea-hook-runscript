@@ -16,6 +16,10 @@ using namespace isc::hooks;
 
 extern "C" {
 
+std::string toText(const std::vector<uint8_t>& binary) {
+    return std::string(binary.begin(), binary.end());
+}
+
 /* These are helpers that extract relevant information from Kea data
  * structures and store them in environment variables. */
 void extract_bool(std::vector<std::string>& env, const std::string variable, bool value)
@@ -50,6 +54,15 @@ void extract_pkt4(std::vector<std::string>& env, const std::string envprefix, co
     env.push_back(envprefix + "RELAYED=" + std::to_string(pkt4->isRelayed()));
     env.push_back(envprefix + "RELAY_HOPS=" + std::to_string(pkt4->getHops()));
 
+    OptionPtr option82 = query4_ptr->getOption(82);
+    if (option82) {
+        for(int a = 0; a < 3; a = a + 1) {
+            OptionPtr SubPtr = option82->getOption(a);
+            if (SubPtr) {
+                env.push_back(envprefix + "OPTION82_SUB" + a + "=" + toText(SubPtr->toBinary(false)));
+            }
+        }
+    }
 }
 
 void extract_query4(std::vector<std::string>& env, const Pkt4Ptr query)
