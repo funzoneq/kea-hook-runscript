@@ -44,9 +44,9 @@ void extract_pkt4(std::vector<std::string>& env, const std::string envprefix, co
     env.push_back(envprefix + "INTERFACE=" + pkt4->getIface());
     env.push_back(envprefix + "IFINDEX=" + std::to_string(pkt4->getIndex()));
     /* Hardware address */
-    HWAddrPtr hwaddr = pkt4->getMAC(HWAddr::HWADDR_SOURCE_ANY);
+    HWAddrPtr hwaddr = pkt4->getHWAddr();
     if (hwaddr) {
-        env.push_back(envprefix + "HWADDR=" + hwaddr->toText(false));
+        env.push_back(envprefix + "HWADDR=" + toText(hwaddr->toBinary(false)));
         env.push_back(envprefix + "HWADDR_TYPE=" + std::to_string(hwaddr->htype_));
         env.push_back(envprefix + "HWADDR_SOURCE=" + std::to_string(hwaddr->source_));
     } else {
