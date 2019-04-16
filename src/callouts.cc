@@ -1,3 +1,10 @@
+/* Copyright (c) 2017-2019 by Baptiste Jonglez
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 #include <hooks/hooks.h>
 #include <dhcp/pkt4.h>
 #include <dhcp/dhcp6.h>
@@ -15,6 +22,10 @@ using namespace isc::dhcp;
 using namespace isc::hooks;
 
 extern "C" {
+
+std::string toText(const std::vector<uint8_t>& binary) {
+    return std::string(binary.begin(), binary.end());
+}
 
 /* These are helpers that extract relevant information from Kea data
  * structures and store them in environment variables. */
@@ -50,6 +61,21 @@ void extract_pkt4(std::vector<std::string>& env, const std::string envprefix, co
     env.push_back(envprefix + "RELAYED=" + std::to_string(pkt4->isRelayed()));
     env.push_back(envprefix + "RELAY_HOPS=" + std::to_string(pkt4->getHops()));
 
+    /* Specific Options */
+    OptionPtr option60 = pkt4->getOption(60);
+    if (option60) {
+        env.push_back(envprefix + "OPTION60=" + option60->toString());
+    }
+
+    OptionPtr option82 = pkt4->getOption(82);
+    if (option82) {
+        for(int a = 1; a < 3; a = a + 1) {
+            OptionPtr SubPtr = option82->getOption(a);
+            if (SubPtr) {
+                env.push_back(envprefix + "OPTION82_SUB" + std::to_string(a) + "=" + toText(SubPtr->toBinary(false)));
+            }
+        }
+    }
 }
 
 void extract_query4(std::vector<std::string>& env, const Pkt4Ptr query)
