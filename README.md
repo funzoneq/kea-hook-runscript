@@ -7,6 +7,8 @@ The goal is to simplify integration with Kea: for many simple use-cases,
 it is overkill to have to write a full-blown Kea hook, where a simple shell script
 can do the job.
 
+This hook is licensed under the Mozilla Public License version 2 (MPL2).
+
 ## What it can and can't do
 
 Integration is mostly done one-way: thanks to this hook, Kea passes information
@@ -93,7 +95,7 @@ Some notes on Kea versions:
 - Kea 1.2 is missing a header file by mistake, so depending on your
   distribution, you may need to manually copy `option6_pdexclude.h` from
   the Kea git repository to `/usr/include/kea/dhcp/`.
-- Kea 1.3 should work out-of-the-box.
+- Kea 1.3 to 1.5 should work out-of-the-box.
 
 To build against a local Kea source tree, assumed to be in `~/kea`:
 
@@ -102,8 +104,8 @@ To build against a local Kea source tree, assumed to be in `~/kea`:
 
 Then build this hook with:
 
-    $ export KEA_MSG_COMPILER=~/kea/src/lib/log/compiler/kea-msg-compiler
-    $ export KEA_INCLUDE=~/kea/src/lib
+    $ export KEA_MSG_COMPILER=$HOME/kea/src/lib/log/compiler/kea-msg-compiler
+    $ export KEA_INCLUDE=$HOME/kea/src/lib
     $ export KEA_LIB=/tmp/kea/usr/local/lib
     $ make
 
@@ -164,6 +166,7 @@ and reference of the possible values.  Booleans are simply expressed with
 | `KEA_QUERY4_HWADDR_SOURCE`            | `int`    | How this MAC address was obtained                           | [dhcp/hwaddr.h](https://jenkins.isc.org/job/Kea_doc/doxygen/da/dae/group__hw__sources.html)                                                                     |
 | `KEA_QUERY4_RELAYED`                  | `bool`   | Whether query was relayed                                   | [dhcp/pkt4.h](https://jenkins.isc.org/job/Kea_doc/doxygen/de/d13/classisc_1_1dhcp_1_1Pkt4.html#a8468401827b9bacdd3796bb4e20d8e5e)                               |
 | `KEA_QUERY4_RELAY_HOPS`               | `int`    | Number of relay agents traversed                            |                                                                                                                                                                 |
+| `KEA_QUERY4_OPTION60`                 | `string` | Option 60 - vendor id                                       |                                                                                                                                                                 |
 | `KEA_QUERY4_CIADDR`                   | `string` | Client IP address                                           | [dhcp/pkt4.h](https://jenkins.isc.org/job/Kea_doc/doxygen/de/d13/classisc_1_1dhcp_1_1Pkt4.html)                                                                 |
 | `KEA_QUERY4_SIADDR`                   | `string` | Server IP address                                           | [dhcp/pkt4.h](https://jenkins.isc.org/job/Kea_doc/doxygen/de/d13/classisc_1_1dhcp_1_1Pkt4.html)                                                                 |
 | `KEA_QUERY4_YIADDR`                   | `string` | Your IP address                                             | [dhcp/pkt4.h](https://jenkins.isc.org/job/Kea_doc/doxygen/de/d13/classisc_1_1dhcp_1_1Pkt4.html)                                                                 |
@@ -213,6 +216,7 @@ script.
 - `KEA_QUERY4_HWADDR_TYPE`
 - `KEA_QUERY4_RELAYED`
 - `KEA_QUERY4_RELAY_HOPS`
+- `KEA_QUERY4_OPTION60`
 - `KEA_QUERY4_CIADDR`
 - `KEA_QUERY4_SIADDR`
 - `KEA_QUERY4_YIADDR`
@@ -230,6 +234,7 @@ script.
 - `KEA_QUERY4_HWADDR_TYPE`
 - `KEA_QUERY4_RELAYED`
 - `KEA_QUERY4_RELAY_HOPS`
+- `KEA_QUERY4_OPTION60`
 - `KEA_QUERY4_CIADDR`
 - `KEA_QUERY4_SIADDR`
 - `KEA_QUERY4_YIADDR`
